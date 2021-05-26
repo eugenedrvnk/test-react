@@ -1,0 +1,9 @@
+.app-layout-header {
+  &__toolbar {
+    display: flex;
+  }
+
+  &__logout {
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,10 @@
+.add-post {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  padding: 30px;
+
+  &__row {
+    margin-bottom: 10px;
+  }
+}
