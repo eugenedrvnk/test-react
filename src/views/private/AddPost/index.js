@@ -87,7 +87,7 @@ const AddPost = () => {
       </Button>
       {image && (
         <img
-          className="add-post__row"
+          className="add-post__row add-post__img"
           src={image} alt=""
         />
       )}

@@ -13,6 +13,10 @@ const Posts = () => {
   useEffect(async () => {
     const postsSnapshot = await db.collection('posts').get()
     setPosts(postsSnapshot.docs.map(doc => doc.data()))
+
+    console.log(firebase.firestore.FieldValue.serverTimestamp())
+
+    console.log(postsSnapshot.docs.map(doc => doc.data()))
   }, [])
 
   return (

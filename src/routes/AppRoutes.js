@@ -13,27 +13,29 @@ import {AuthLayout} from '../layouts/AuthLayout';
 import {AppLayout} from '../layouts/AppLayout';
 
 const AppRoutes = () => {
-  const {isLoggedIn} = useAuth()
+  const {authWasChecked, isLoggedIn} = useAuth()
 
   return (
     <AppLayout>
-      <Switch>
-        {
-          isLoggedIn
-            ?
-            <>
-              <Route path="/" exact component={Profile}/>
-              <Route path="/add-post" exact component={AddPost}/>
-              <Route path="/posts" exact component={Posts}/>
-            </>
-            :
-            <AuthLayout>
-              <Route path="/signin" exact component={Signin}/>
-              <Route path="/signup" exact component={Signup}/>
-              <Redirect from="/profile" to="/signin"/>
-            </AuthLayout>
-        }
-      </Switch>
+      {authWasChecked && (
+        <Switch>
+          {
+            isLoggedIn
+              ?
+              <>
+                <Route path="/" exact component={Profile}/>
+                <Route path="/add-post" exact component={AddPost}/>
+                <Route path="/posts" exact component={Posts}/>
+              </>
+              :
+              <AuthLayout>
+                <Route path="/signin" exact component={Signin}/>
+                <Route path="/signup" exact component={Signup}/>
+                <Redirect from="/profile" to="/signin"/>
+              </AuthLayout>
+          }
+        </Switch>
+      )}
     </AppLayout>
   )
 }
