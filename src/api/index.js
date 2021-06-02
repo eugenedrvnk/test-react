@@ -1,7 +1,9 @@
 import {auth} from './modules/auth'
+import {posts} from './modules/posts';
 
 const api = {
-  auth
+  auth,
+  posts
 }
 
 export {

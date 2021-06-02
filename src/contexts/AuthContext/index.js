@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
+  const [authWasChecked, setAuthWasChecked] = useState(false)
 
   const isLoggedIn = !!currentUser
 
@@ -22,11 +23,11 @@ const AuthProvider = ({children}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        console.log(user)
         setCurrentUser(user)
       } else {
         setCurrentUser(null)
       }
+      setAuthWasChecked(true)
     });
   }, [])
 
@@ -37,7 +38,8 @@ const AuthProvider = ({children}) => {
         signup,
         signout: api.auth.signout,
         currentUser,
-        isLoggedIn
+        isLoggedIn,
+        authWasChecked
       }}
     >
       {children}

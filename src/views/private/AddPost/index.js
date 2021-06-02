@@ -1,4 +1,4 @@
-import {useRef} from 'react'
+import {useState, useRef} from 'react'
 import {Button, Paper, Typography} from '@material-ui/core';
 import {RTextField} from '../../../components/RTextField';
 
@@ -8,6 +8,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import firebase from 'firebase';
 import * as yup from 'yup'
 import {v4 as uuidv4} from 'uuid';
+import {api} from '../../../api';
 
 import './index.scss'
 
@@ -17,10 +18,16 @@ const schema = yup.object().shape({
   image: yup.mixed().required()
 });
 
+const defaultValues = {
+  title: '',
+  desc: ''
+}
+
 const AddPost = () => {
   const history = useHistory()
 
-  const db = firebase.firestore()
+  const [imageIsLoading, setImageIsLoading] = useState(false)
+
   const storageRef = firebase.storage().ref()
   const fileInputRef = useRef()
 
@@ -28,29 +35,31 @@ const AddPost = () => {
     mode: 'onTouched',
     resolver: yupResolver(schema),
     shouldFocusError: false,
+    defaultValues
   })
 
   const image = watch('image')
 
   const handleFileUpload = () => {
+    setImageIsLoading(true)
+
     const file = fileInputRef.current.files[0]
     const fileRef = storageRef.child(`images/${uuidv4()}${file.name}`)
     fileRef.put(file).then((snapshot => {
       snapshot.ref.getDownloadURL().then(url => {
         setValue('image', url, {shouldValidate: true})
       })
+
+      setImageIsLoading(false)
     }))
   }
 
   const onSubmit = ({title, desc, image}) => {
-    db.collection("posts").add({
-      title,
-      desc,
-      image
-    }).then(() => {
-      alert('post created')
-      history.push('/posts')
-    })
+    api.posts.create({title, desc, image})
+      .then(() => {
+        alert('post created')
+        history.push('/posts')
+      })
       .catch(() => alert('error'))
   }
 
@@ -72,6 +81,9 @@ const AddPost = () => {
         label="desc"
         control={control}
       />
+      {
+        imageIsLoading && <h2>Image is uploading...</h2>
+      }
       <Button
         className="add-post__row"
         variant="contained"
