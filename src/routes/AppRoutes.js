@@ -13,11 +13,11 @@ import {AuthLayout} from '../layouts/AuthLayout';
 import {AppLayout} from '../layouts/AppLayout';
 
 const AppRoutes = () => {
-  const {isLoggedIn, authWasChecked} = useAuth()
+  const {authWasChecked, isLoggedIn} = useAuth()
 
   return (
-    authWasChecked ? (
-      <AppLayout>
+    <AppLayout>
+      {authWasChecked && (
         <Switch>
           {
             isLoggedIn
@@ -35,8 +35,8 @@ const AppRoutes = () => {
               </AuthLayout>
           }
         </Switch>
-      </AppLayout>
-    ) : null
+      )}
+    </AppLayout>
   )
 }
 

@@ -1,13 +1,14 @@
 import {useState} from 'react'
-import {Button, Paper, Typography} from '@material-ui/core';
+import {Paper, Typography, Button} from '@material-ui/core';
 
 import firebase from 'firebase';
 import {useEffect} from 'react';
-
 import {api} from '../../../api';
+
 import './index.scss'
 
 const Posts = () => {
+  const db = firebase.firestore()
   const [posts, setPosts] = useState([])
 
   useEffect(async () => {

@@ -1,8 +1,11 @@
 .posts {
   padding: 30px;
+  background: #fdfdfd;
 
   &__item {
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
 
     &:last-child {
       margin-bottom: 0;

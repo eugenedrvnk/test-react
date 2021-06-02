@@ -7,7 +7,6 @@ const AuthContext = createContext();
 const AuthProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [authWasChecked, setAuthWasChecked] = useState(false)
-
   const isLoggedIn = !!currentUser
 
   const signup = ({email, password}) => {
@@ -23,6 +22,7 @@ const AuthProvider = ({children}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
+        console.log(user)
         setCurrentUser(user)
       } else {
         setCurrentUser(null)
